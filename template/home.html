@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schooldata</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+
+        #bg{
+            width: 100%;
+            height: auto;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .data-upload{
+            background-color: #dab1e2;
+            height: 500px;
+            width: 600px;
+            border-radius: 5px;
+            border: black solid 3px;
+            margin-top: 110px;
+            margin-left: 50px;
+        }
+
+        .data-upload p{
+            font-size: medium;
+            font-weight: bold;
+            margin: 12px 0;
+            color: black;
+            margin-left: 20px;
+        }
+
+        .data-upload input{
+            font-size: 16px;
+            width: 250px;
+            height: 20px;
+            border-radius: 5px;
+            outline: none;
+            border: black solid 3px;
+            background: transparent;
+            padding: 5px 3px;
+            margin-left: 20px;
+        }
+
+        .data-upload select{
+            margin-left: 20px;
+            border: black solid 2px;
+            outline: none;
+            width: 90px;
+            height: 23px;
+            border-radius: 5px;
+            background: transparent;
+        }
+
+        .data-upload label{
+            margin-left: 15px;
+            margin: 0 10px;
+        }
+        .submit-btn{
+            margin-top: 60px;
+            margin-left: 40px;
+        }
+    </style>
+</head>
+<body id="bg" style="background-color: #C39BD3;">
+    
+    <div class="data-upload">
+        <form method='POST' onsubmit="return validate()" action="{% url 'home' %}">
+            <p>Name</p>
+            <input type="text" name="name" required>
+            <p>Date of Birth</p>
+            <input type="date" name="dob" required>
+            <p>Class</p>
+            <select name="class" required>
+                <option value="I">I</option>
+                <option value="II">II</option>
+                <option value="III">III</option>
+                <option value="IV">IV</option>
+                <option value="V">V</option>
+                <option value="VI">VI</option>
+                <option value="VII">VII</option>
+                <option value="VIII">VIII</option>
+                <option value="IX">IX</option>
+                <option value="X">X</option>
+                <option value="XII">XII</option>
+                <option value="XI2">XI2</option>
+            </select>
+            <p>Division</p>
+            <select name="division" required>
+                <option value="A">A</option>
+                <option value="B">B</option>
+                <option value="C">C</option>
+            </select>
+            <p>Gender</p>
+            <input type="radio" name="radoption" value="Male" required>
+            <label for="male">Male</label>
+            <input type="radio" name="radoption" value="Female" required>
+            <label for="female">Female</label>
+            <button class="submit-btn" type="submit">Submit</button>
+        </form>
+    </div>
+</body>
+
+<script>
+    var letters=/^[a-zA-Z ]^$/;
+    function validateform() 
+    {
+        if(!name.value.match(letters))
+        {
+            alert("Name must contain letters and spaces only!");
+            return false;
+        }
+        return true
+    }
+</script>
+
+</html>
