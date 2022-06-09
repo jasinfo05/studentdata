@@ -71,9 +71,10 @@
 <body id="bg" style="background-color: #C39BD3;">
     
     <div class="data-upload">
-        <form method='POST' onsubmit="return validate()" action="{% url 'home' %}">
+        <form method='POST' name="myform" action="{% url 'home' %}" onsubmit="return validation()">
+            {% csrf_token %}
             <p>Name</p>
-            <input type="text" name="name" required>
+            <input type="text" name="studentname" required>
             <p>Date of Birth</p>
             <input type="date" name="dob" required>
             <p>Class</p>
@@ -98,26 +99,27 @@
                 <option value="C">C</option>
             </select>
             <p>Gender</p>
-            <input type="radio" name="radoption" value="Male" required>
+            <input type="radio" name="gender" value="Male" required>
             <label for="male">Male</label>
-            <input type="radio" name="radoption" value="Female" required>
+            <input type="radio" name="gender" value="Female" required>
             <label for="female">Female</label>
             <button class="submit-btn" type="submit">Submit</button>
         </form>
     </div>
-</body>
-
-<script>
-    var letters=/^[a-zA-Z ]^$/;
-    function validateform() 
-    {
-        if(!name.value.match(letters))
+    <script>
+        var studentname=document.forms['myform']['studentname'];
+        var letters=/^[a-zA-Z\s]*$/;
+    
+        function validation()
         {
-            alert("Name must contain letters and spaces only!");
-            return false;
+            if(!studentname.value.match(letters))
+            {
+                alert('Name must contain alphabets and spaces only!');
+                return false;
+            }
+            return true;
         }
-        return true
-    }
-</script>
+    </script>
 
+</body>
 </html>
