@@ -9,3 +9,6 @@ class candidate(models.Model):
     Gender=models.CharField(max_length=20)
     Admission_No=models.CharField(max_length=10)
 
+    def __str__(self):
+        return self.Name
+
