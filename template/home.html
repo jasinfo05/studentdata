@@ -5,78 +5,22 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Schooldata</title>
-    <style>
-        *{
-            margin: 0;
-            padding: 0;
-        }
-
-        #bg{
-            width: 100%;
-            height: auto;
-            background-size: cover;
-            background-position: center;
-        }
-
-        .data-upload{
-            background-color: #dab1e2;
-            height: 500px;
-            width: 600px;
-            border-radius: 5px;
-            border: black solid 3px;
-            margin-top: 110px;
-            margin-left: 50px;
-        }
-
-        .data-upload p{
-            font-size: medium;
-            font-weight: bold;
-            margin: 12px 0;
-            color: black;
-            margin-left: 20px;
-        }
-
-        .data-upload input{
-            font-size: 16px;
-            width: 250px;
-            height: 20px;
-            border-radius: 5px;
-            outline: none;
-            border: black solid 3px;
-            background: transparent;
-            padding: 5px 3px;
-            margin-left: 20px;
-        }
-
-        .data-upload select{
-            margin-left: 20px;
-            border: black solid 2px;
-            outline: none;
-            width: 90px;
-            height: 23px;
-            border-radius: 5px;
-            background: transparent;
-        }
-
-        .data-upload label{
-            margin-left: 15px;
-            margin: 0 10px;
-        }
-        .submit-btn{
-            margin-top: 60px;
-            margin-left: 40px;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body id="bg" style="background-color: #C39BD3;">
     
     <div class="data-upload">
-        <form method='POST' name="myform" action="{% url 'home' %}" onsubmit="return validation()">
+
+        <!--form for submitting details-->
+        <form method='POST' action="{% url 'home' %}" id="myform" onsubmit="return validation()" autocomplete="off">
             {% csrf_token %}
+
+            <!--warning message-->
+            <font color="red">{{WMSG}}</font>
             <p>Name</p>
-            <input type="text" name="studentname" required>
+            <input type="text" name="sname" required>
             <p>Date of Birth</p>
-            <input type="date" name="dob" required>
+            <input type="date" name="sdob" required>
             <p>Class</p>
             <select name="class" required>
                 <option value="I">I</option>
@@ -99,25 +43,73 @@
                 <option value="C">C</option>
             </select>
             <p>Gender</p>
-            <input type="radio" name="gender" value="Male" required>
+            <input type="radio" name="gender" value="Male" checked>
             <label for="male">Male</label>
-            <input type="radio" name="gender" value="Female" required>
+            <input type="radio" name="gender" value="Female" >
             <label for="female">Female</label>
-            <button class="submit-btn" type="submit">Submit</button>
+            <input type="hidden" name="admn" value="{{AdNo}}">
+            <button class="submit-btn" >Submit</button>
         </form>
     </div>
+
+    <!--Response with all details of student-->
+    {% if std %}
+    <div class="response-box">
+        <p>Name &nbsp;&nbsp;&nbsp; :<span> &nbsp;&nbsp;&nbsp;{{NAME}}</span> </p>
+        <p>Date of Birth &nbsp;&nbsp;&nbsp; :<span> &nbsp;&nbsp;&nbsp;{{Dob}}</span> </p>
+        <p>Class &nbsp;&nbsp;&nbsp; :<span> &nbsp;&nbsp;&nbsp;{{Batch}}</span> </p>
+        <p>Division &nbsp;&nbsp;&nbsp; :<span> &nbsp;&nbsp;&nbsp;{{Div}}</span> </p>
+        <p>Gender &nbsp;&nbsp;&nbsp; :<span> &nbsp;&nbsp;&nbsp;{{Gen}}</span> </p>
+        <h3>Note your admission number : <span> &nbsp;&nbsp;&nbsp;{{AdNo}}</span></h3>
+    </div>
+    {% endif %}
+
+    <!--Showing entered student details in table-->
+    <div class="container">
+        {% if std %}
+        <table id="display" border="2">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>DOB</th>
+                    <th>Class</th>
+                    <th>Division</th>
+                    <th>Gender</th>
+                    <th>AD.No</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for st in std %}
+                <tr>
+                    <td>{{st.Name}}</td>
+                    <td>{{st.DOB}}</td>
+                    <td>{{st.Class}}</td>
+                    <td>{{st.Division}}</td>
+                    <td>{{st.Gender}}</td>
+                    <td>{{st.Admission_No}}</td>
+                </tr>
+                
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!--while loading the site it shows no records-->
+        {% else %}
+        <h1 class="no-records" >NO RECORDS!</h1>
+        {% endif %}
+    </div>
+   
+    <!--setting alert for invalid input of name-->
     <script>
-        var studentname=document.forms['myform']['studentname'];
-        var letters=/^[a-zA-Z\s]*$/;
-    
+        var sname=document.forms['myform']['sname'];
+        var letters=/^[a-zA-Z\s]*$/;    
         function validation()
         {
-            if(!studentname.value.match(letters))
+            if(!sname.value.match(letters))
             {
                 alert('Name must contain alphabets and spaces only!');
                 return false;
             }
-            return true;
         }
     </script>
 
